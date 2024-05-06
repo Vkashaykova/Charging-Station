@@ -1,8 +1,24 @@
 package com.example.hubject.services.contracts;
 
-import jakarta.persistence.*;
+import com.example.hubject.models.ChargingStation;
 
-public class ChargingStationService {
+import java.util.List;
+
+public interface ChargingStationService {
+
+    List<ChargingStation> getAllChargingStations();
+
+    ChargingStation getChargingStationById(int chargingStationId);
+
+    ChargingStation getChargingStationByZipcode(int zipcode);
+
+    ChargingStation getChargingStationByGeolocation(double latitude, double longitude);
+
+    void addChargingStation(ChargingStation chargingStation);
+
+    void updateChargingStation(ChargingStation chargingStation);
+
+    void deleteChargingStation(int chargingStationId);
 
 
 }
