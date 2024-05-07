@@ -8,13 +8,15 @@ public class Zipcode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "zipcode_id")
     private int id;
 
     @Column(name = "zipcode")
     private int zipcode;
 
-    public Zipcode() {
+    public Zipcode(int zipcode) {
+        this.zipcode = zipcode;
+
     }
 
     public int getId() {

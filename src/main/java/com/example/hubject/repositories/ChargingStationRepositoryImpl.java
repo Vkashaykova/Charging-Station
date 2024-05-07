@@ -38,11 +38,12 @@ public class ChargingStationRepositoryImpl implements ChargingStationRepository 
     }
 
     @Override
-    public Optional<ChargingStation> getChargingStationByZipcode(int zipcode) {
+    public Optional<List<ChargingStation>> getChargingStationByZipcode(int zipcode) {
         try (Session session = sessionFactory.openSession()) {
-            Query<ChargingStation> query = session.createQuery("FROM ChargingStation as c where c.id = :id", ChargingStation.class);
-            query.setParameter("id", zipcode);
-            return Optional.ofNullable(query.uniqueResult());
+            Query<ChargingStation> query = session.createQuery("FROM ChargingStation as c where c.zipcode.zipcode = :zipcode", ChargingStation.class);
+            query.setParameter("zipcode", zipcode);
+            List<ChargingStation> result = query.list();
+            return Optional.ofNullable(result.isEmpty() ? null : result);
         }
     }
 

@@ -32,7 +32,7 @@ public class ChargingStationServiceImpl implements ChargingStationService {
     }
 
     @Override
-    public ChargingStation getChargingStationByZipcode(int zipcode) {
+    public List<ChargingStation> getChargingStationByZipcode(int zipcode) {
         return chargingStationRepository.getChargingStationByZipcode(zipcode)
                 .orElseThrow(() -> new EntityNotFoundException("Charging station", "zipcode", String.valueOf(zipcode)));
     }
@@ -40,13 +40,13 @@ public class ChargingStationServiceImpl implements ChargingStationService {
     @Override
     public ChargingStation getChargingStationByGeolocation(double latitude, double longitude) {
         return chargingStationRepository.getChargingStationByGeolocation(latitude, longitude)
-                .orElseThrow(() -> new EntityNotFoundException("Charging station", "geolocation", String.valueOf(latitude + " " + longitude)));
+                .orElseThrow(() -> new EntityNotFoundException("Charging station", "geolocation", (latitude + " " + longitude)));
     }
 
     @Override
     public void addChargingStation(ChargingStation chargingStation) {
-        Optional<ChargingStation> existingChargingStation = chargingStationRepository.getChargingStationByZipcode(chargingStation.getZipcode().getId());
-        if (existingChargingStation.isPresent() && chargingStation.getLatitude() == existingChargingStation.get().getLatitude() && chargingStation.getLongitude() == existingChargingStation.get().getLatitude()) {
+        Optional<ChargingStation> existingChargingStation = chargingStationRepository.getChargingStationByGeolocation(chargingStation.getLatitude(), chargingStation.getLongitude());
+        if (existingChargingStation.isPresent() && existingChargingStation.get().getZipcode() == chargingStation.getZipcode()) {
             throw new IllegalArgumentException("Charging station already exists");
 
         } else {

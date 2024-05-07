@@ -10,7 +10,7 @@ public interface ChargingStationRepository {
 
     Optional<ChargingStation> getChargingStationById(int chargingStationId);
 
-    Optional<ChargingStation> getChargingStationByZipcode(int zipcode);
+    Optional<List<ChargingStation>> getChargingStationByZipcode(int zipcode);
 
     Optional<ChargingStation> getChargingStationByGeolocation(double latitude, double longitude);
 

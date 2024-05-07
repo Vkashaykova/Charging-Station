@@ -16,7 +16,7 @@ public class ChargingStation {
     @Column(name = "longitude")
     private double longitude;
     @ManyToOne
-    @Column(name = "zipcode")
+    @JoinColumn (name = "zipcode")
     private Zipcode zipcode;
 
     public ChargingStation() {

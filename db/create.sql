@@ -7,7 +7,7 @@ create table zipcode
 
 create table charging_station
 (
-    id        varchar(50)    not null
+    id        int    not null
         primary key,
     latitude  decimal(10, 6) not null,
     longitude decimal(10, 6) not null,

@@ -45,17 +45,18 @@ public class ChargingStationRestController {
        }
    }
     @GetMapping(value = "/search", params = "zipcode")
-    public ResponseEntity<ChargingStation> getChargingStationsByZipcode(@RequestParam String zipcode) {
+    public ResponseEntity<List<ChargingStation>>getChargingStationsByZipcode(@RequestParam String zipcode) {
         try {
-            ChargingStation chargingStation = chargingStationService.getChargingStationByZipcode(Integer.parseInt(zipcode));
-            return new ResponseEntity<>(chargingStation, HttpStatus.OK);
+            List<ChargingStation> chargingStations = chargingStationService.getChargingStationByZipcode(Integer.parseInt(zipcode));
+            return new ResponseEntity<>(chargingStations, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+
         }
     }
-    @GetMapping(value = "/search", params = "geolocation")
-    public ResponseEntity<ChargingStation> getChargingStationsByGeolocation(@RequestParam double latitude,
-                                                                            @RequestParam double longitude) {
+    @GetMapping(value = "/search", params = {"latitude", "longitude"})
+    public ResponseEntity<ChargingStation> getChargingStationsByGeolocation( @RequestParam("latitude") double latitude,
+                                                                             @RequestParam("longitude") double longitude) {
         try {
             ChargingStation chargingStation = chargingStationService.getChargingStationByGeolocation(latitude, longitude);
             return new ResponseEntity<>(chargingStation, HttpStatus.OK);
