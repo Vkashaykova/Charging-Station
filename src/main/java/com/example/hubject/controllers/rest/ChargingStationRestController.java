@@ -120,6 +120,17 @@ public class ChargingStationRestController {
         }
     }
 
+    @GetMapping("/zipcode/{zipcodeId}")
+    public ResponseEntity<Zipcode> getZipcodeById (@PathVariable int zipcodeId) {
+
+        try {
+            Zipcode zipcode = zipcodeService.getZipcodeById(zipcodeId);
+            return new ResponseEntity<>(zipcode, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
     @PutMapping("/zipcode/{zipcodeId}")
     public ResponseEntity<Zipcode> updateChargingStation(@PathVariable int zipcodeId,
                                                          @RequestBody ZipcodeDto zipCodeDto) {
