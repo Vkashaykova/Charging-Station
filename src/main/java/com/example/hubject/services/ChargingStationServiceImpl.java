@@ -1,5 +1,6 @@
 package com.example.hubject.services;
 
+import com.example.hubject.exceptions.DuplicateEntityException;
 import com.example.hubject.exceptions.EntityNotFoundException;
 import com.example.hubject.models.ChargingStation;
 import com.example.hubject.repositories.contracts.ChargingStationRepository;
@@ -18,7 +19,6 @@ public class ChargingStationServiceImpl implements ChargingStationService {
     public ChargingStationServiceImpl(ChargingStationRepository chargingStationRepository) {
         this.chargingStationRepository = chargingStationRepository;
     }
-
 
     @Override
     public List<ChargingStation> getAllChargingStations() {
@@ -45,27 +45,34 @@ public class ChargingStationServiceImpl implements ChargingStationService {
 
     @Override
     public void addChargingStation(ChargingStation chargingStation) {
-        Optional<ChargingStation> existingChargingStation = chargingStationRepository.getChargingStationByGeolocation(chargingStation.getLatitude(), chargingStation.getLongitude());
-        if (existingChargingStation.isPresent() && existingChargingStation.get().getZipcode() == chargingStation.getZipcode()) {
-            throw new IllegalArgumentException("Charging station already exists");
+        Optional<ChargingStation> existingChargingStation = chargingStationRepository.
+                getChargingStationByGeolocation(chargingStation.getLatitude(), chargingStation.getLongitude());
 
+        if (existingChargingStation.isPresent() &&  existingChargingStation.get().getZipcode()!=null &&
+                existingChargingStation.get().getZipcode().getZipcode() == chargingStation.getZipcode().getZipcode()
+               ) {
+            throw new DuplicateEntityException("Charging station");
         } else {
             chargingStationRepository.addChargingStation(chargingStation);
-
         }
     }
 
     @Override
     public void updateChargingStation(ChargingStation chargingStation) {
         getChargingStationById(chargingStation.getId());
-        chargingStationRepository.updateChargingStation(chargingStation);
+        Optional<ChargingStation> existingChargingStation = chargingStationRepository.getChargingStationByGeolocation
+                (chargingStation.getLatitude(), chargingStation.getLongitude());
 
+        if (existingChargingStation.isPresent() &&
+                existingChargingStation.get().getZipcode().getZipcode() == chargingStation.getZipcode().getZipcode()) {
+            throw new DuplicateEntityException("Charging station", "geolocation", "and zipcode");
+        }
+        chargingStationRepository.updateChargingStation(chargingStation);
     }
 
     @Override
-    public void deleteChargingStation(int chargingStationId) {
-        chargingStationRepository.deleteChargingStation(chargingStationId);
-
+    public void deleteChargingStation(ChargingStation chargingStation) {
+        chargingStationRepository.deleteChargingStation(chargingStation);
     }
 }
 

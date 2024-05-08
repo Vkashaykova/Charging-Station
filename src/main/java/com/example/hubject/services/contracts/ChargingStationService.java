@@ -10,7 +10,7 @@ public interface ChargingStationService {
 
     ChargingStation getChargingStationById(int chargingStationId);
 
-    List<ChargingStation>getChargingStationByZipcode(int zipcode);
+    List<ChargingStation> getChargingStationByZipcode(int zipcode);
 
     ChargingStation getChargingStationByGeolocation(double latitude, double longitude);
 
@@ -18,7 +18,7 @@ public interface ChargingStationService {
 
     void updateChargingStation(ChargingStation chargingStation);
 
-    void deleteChargingStation(int chargingStationId);
+    void deleteChargingStation(ChargingStation chargingStation);
 
 
 }

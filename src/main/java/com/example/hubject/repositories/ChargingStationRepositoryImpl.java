@@ -22,54 +22,68 @@ public class ChargingStationRepositoryImpl implements ChargingStationRepository 
 
     @Override
     public List<ChargingStation> getAllChargingStations() {
+
         try (Session session = sessionFactory.openSession()) {
             Query<ChargingStation> query = session.createQuery("SELECT c from ChargingStation c", ChargingStation.class);
+
             return query.list();
         }
     }
 
     @Override
     public Optional<ChargingStation> getChargingStationById(int chargingStationId) {
+
         try (Session session = sessionFactory.openSession()) {
             Query<ChargingStation> query = session.createQuery("FROM ChargingStation as c where c.id = :id", ChargingStation.class);
             query.setParameter("id", chargingStationId);
+
             return Optional.ofNullable(query.uniqueResult());
         }
     }
 
     @Override
     public Optional<List<ChargingStation>> getChargingStationByZipcode(int zipcode) {
+
         try (Session session = sessionFactory.openSession()) {
             Query<ChargingStation> query = session.createQuery("FROM ChargingStation as c where c.zipcode.zipcode = :zipcode", ChargingStation.class);
             query.setParameter("zipcode", zipcode);
             List<ChargingStation> result = query.list();
+
             return Optional.ofNullable(result.isEmpty() ? null : result);
         }
     }
 
     @Override
     public Optional<ChargingStation> getChargingStationByGeolocation(double latitude, double longitude) {
+
         try (Session session = sessionFactory.openSession()) {
             Query<ChargingStation> query = session.createQuery("FROM ChargingStation as c where c.latitude = :latitude " +
                     "and c.longitude= :longitude", ChargingStation.class);
             query.setParameter("latitude", latitude);
             query.setParameter("longitude", longitude);
-            return Optional.ofNullable(query.uniqueResult());
+            List<ChargingStation> result = query.list();
+
+            if (!result.isEmpty()) {
+                return Optional.of(result.get(0));
+            } else {
+                return Optional.empty();
+            }
         }
     }
 
     @Override
     public void addChargingStation(ChargingStation chargingStation) {
+
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(chargingStation);
             session.getTransaction().commit();
         }
-
     }
 
     @Override
     public void updateChargingStation(ChargingStation chargingStation) {
+
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(chargingStation);
@@ -78,10 +92,11 @@ public class ChargingStationRepositoryImpl implements ChargingStationRepository 
     }
 
     @Override
-    public void deleteChargingStation(int chargingStationId) {
+    public void deleteChargingStation(ChargingStation chargingStation) {
+
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.remove(chargingStationId);
+            session.remove(chargingStation);
             session.getTransaction().commit();
         }
 

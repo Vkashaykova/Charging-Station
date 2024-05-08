@@ -14,9 +14,7 @@ public class Zipcode {
     @Column(name = "zipcode")
     private int zipcode;
 
-    public Zipcode(int zipcode) {
-        this.zipcode = zipcode;
-
+    public Zipcode() {
     }
 
     public int getId() {

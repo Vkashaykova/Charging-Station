@@ -1,17 +1,13 @@
 package com.example.hubject.models.dto;
 
-import com.example.hubject.models.Zipcode;
-
 public class ChargingStationDto {
 
     private double latitude;
-
     private double longitude;
-    private Zipcode zipcode;
+    private int zipcode;
 
     public ChargingStationDto() {
     }
-
 
     public double getLatitude() {
         return latitude;
@@ -29,11 +25,11 @@ public class ChargingStationDto {
         this.longitude = longitude;
     }
 
-    public Zipcode getZipcode() {
+    public int getZipcode() {
         return zipcode;
     }
 
-    public void setZipcode(Zipcode zipcode) {
+    public void setZipcode(int zipcode) {
         this.zipcode = zipcode;
     }
 }

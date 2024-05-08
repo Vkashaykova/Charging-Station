@@ -18,5 +18,5 @@ public interface ChargingStationRepository {
 
     void updateChargingStation(ChargingStation chargingStation);
 
-    void deleteChargingStation(int chargingStationId);
+    void deleteChargingStation(ChargingStation chargingStation);
 }
