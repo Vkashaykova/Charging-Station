@@ -122,8 +122,8 @@ public class ChargingStationServiceImpl implements ChargingStationService {
         Optional<ChargingStation> existingChargingStation = chargingStationRepository.getChargingStationByGeolocation
                 (chargingStation.getLatitude(), chargingStation.getLongitude());
 
-        if (existingChargingStation.isPresent() &&
-                existingChargingStation.get().getZipcode().getZipcode() == chargingStation.getZipcode().getZipcode()) {
+        if (existingChargingStation.isPresent() &&  existingChargingStation.get().getZipcode() != null
+                && existingChargingStation.get().getZipcode().getZipcode() == chargingStation.getZipcode().getZipcode()) {
             throw new DuplicateEntityException("Charging station", "geolocation", "and zipcode");
         }
         chargingStationRepository.updateChargingStation(chargingStation);
