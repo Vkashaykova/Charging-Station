@@ -24,7 +24,8 @@ public class ChargingStationRepositoryImpl implements ChargingStationRepository 
     public List<ChargingStation> getAllChargingStations() {
 
         try (Session session = sessionFactory.openSession()) {
-            Query<ChargingStation> query = session.createQuery("SELECT c from ChargingStation c", ChargingStation.class);
+            Query<ChargingStation> query = session.createQuery
+                    ("SELECT c from ChargingStation c", ChargingStation.class);
 
             return query.list();
         }
@@ -34,7 +35,8 @@ public class ChargingStationRepositoryImpl implements ChargingStationRepository 
     public Optional<ChargingStation> getChargingStationById(int chargingStationId) {
 
         try (Session session = sessionFactory.openSession()) {
-            Query<ChargingStation> query = session.createQuery("FROM ChargingStation as c where c.id = :id", ChargingStation.class);
+            Query<ChargingStation> query = session.createQuery
+                    ("FROM ChargingStation as c where c.id = :id", ChargingStation.class);
             query.setParameter("id", chargingStationId);
 
             return Optional.ofNullable(query.uniqueResult());
@@ -45,7 +47,8 @@ public class ChargingStationRepositoryImpl implements ChargingStationRepository 
     public Optional<List<ChargingStation>> getChargingStationByZipcode(int zipcode) {
 
         try (Session session = sessionFactory.openSession()) {
-            Query<ChargingStation> query = session.createQuery("FROM ChargingStation as c where c.zipcode.zipcode = :zipcode", ChargingStation.class);
+            Query<ChargingStation> query = session.createQuery
+                    ("FROM ChargingStation as c where c.zipcode.zipcode = :zipcode", ChargingStation.class);
             query.setParameter("zipcode", zipcode);
             List<ChargingStation> result = query.list();
 
@@ -57,7 +60,8 @@ public class ChargingStationRepositoryImpl implements ChargingStationRepository 
     public Optional<ChargingStation> getChargingStationByGeolocation(double latitude, double longitude) {
 
         try (Session session = sessionFactory.openSession()) {
-            Query<ChargingStation> query = session.createQuery("FROM ChargingStation as c where c.latitude = :latitude " +
+            Query<ChargingStation> query = session.createQuery
+                    ("FROM ChargingStation as c where c.latitude = :latitude " +
                     "and c.longitude= :longitude", ChargingStation.class);
             query.setParameter("latitude", latitude);
             query.setParameter("longitude", longitude);

@@ -58,7 +58,8 @@ public class ChargingStationRestController {
     public ResponseEntity<List<ChargingStation>> getChargingStationsByZipcode(@RequestParam String zipcode) {
 
         try {
-            List<ChargingStation> chargingStations = chargingStationService.getChargingStationByZipcode(Integer.parseInt(zipcode));
+            List<ChargingStation> chargingStations = chargingStationService.
+                    getChargingStationByZipcode(Integer.parseInt(zipcode));
             return new ResponseEntity<>(chargingStations, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

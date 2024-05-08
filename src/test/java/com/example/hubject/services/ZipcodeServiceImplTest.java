@@ -54,9 +54,7 @@ public class ZipcodeServiceImplTest {
         when(mockRepository.getZipcodeById(invalidZipcodeId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(EntityNotFoundException.class, () -> {
-            zipcodeService.getZipcodeById(invalidZipcodeId);
-        });
+        assertThrows(EntityNotFoundException.class, () -> zipcodeService.getZipcodeById(invalidZipcodeId));
     }
 
     @Test
@@ -116,13 +114,11 @@ public class ZipcodeServiceImplTest {
     public void updateZipcode_WhenDuplicateFound_ShouldThrowDuplicateEntityException() {
         // Arrange
         Zipcode zipcodeToUpdate = createMockZipcode();
-        when(mockRepository.getZipcodeByValue(zipcodeToUpdate.getZipcode())).
-                thenReturn(Optional.of(zipcodeToUpdate));
+        when(mockRepository.getZipcodeByValue(zipcodeToUpdate.getZipcode()))
+                .thenReturn(Optional.of(zipcodeToUpdate));
 
         // Act & Assert
-        assertThrows(DuplicateEntityException.class, () -> {
-            zipcodeService.updateZipcode(zipcodeToUpdate);
-        });
+        assertThrows(DuplicateEntityException.class, () -> zipcodeService.updateZipcode(zipcodeToUpdate));
     }
 
     @Test
@@ -132,7 +128,8 @@ public class ZipcodeServiceImplTest {
         ChargingStation chargingStation1 = new ChargingStation();
         ChargingStation chargingStation2 = new ChargingStation();
         List<ChargingStation> chargingStations = Arrays.asList(chargingStation1, chargingStation2);
-        when(chargingStationRepository.getChargingStationByZipcode(zipcode.getZipcode())).thenReturn(Optional.of(chargingStations));
+        when(chargingStationRepository.getChargingStationByZipcode(zipcode.getZipcode()))
+                .thenReturn(Optional.of(chargingStations));
 
         // Act
         zipcodeService.deleteZipCode(zipcode);
@@ -140,7 +137,7 @@ public class ZipcodeServiceImplTest {
         // Assert
         for (ChargingStation chargingStation : chargingStations) {
             assertNull(chargingStation.getZipcode());
-            verify(chargingStationRepository, times(1)).updateChargingStation(chargingStation); // Verify updateChargingStation called
+            verify(chargingStationRepository, times(1)).updateChargingStation(chargingStation);
         }
         verify(mockRepository, times(1)).deleteZipCode(zipcode);
     }

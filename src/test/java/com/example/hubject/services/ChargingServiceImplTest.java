@@ -78,8 +78,8 @@ public class ChargingServiceImplTest {
         ChargingStation expectedChargingStation = createMockChargingStation();
         expectedChargingStations.add(expectedChargingStation);
 
-        Mockito.when(mockRepository.getChargingStationByZipcode(validZipcode)).
-                thenReturn(Optional.of(expectedChargingStations));
+        Mockito.when(mockRepository.getChargingStationByZipcode(validZipcode))
+                .thenReturn(Optional.of(expectedChargingStations));
 
         // Act
         List<ChargingStation> actualChargingStations = chargingStationService.getChargingStationByZipcode(validZipcode);
@@ -95,8 +95,8 @@ public class ChargingServiceImplTest {
         Mockito.when(mockRepository.getChargingStationByZipcode(invalidZipcode)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(EntityNotFoundException.class, () -> chargingStationService.
-                getChargingStationByZipcode(invalidZipcode));
+        assertThrows(EntityNotFoundException.class, () -> chargingStationService
+                .getChargingStationByZipcode(invalidZipcode));
     }
 
     @Test
@@ -105,12 +105,12 @@ public class ChargingServiceImplTest {
         double validLatitude = 37.7749;
         double validLongitude = -122.4194;
         ChargingStation expectedChargingStation = createMockChargingStation();
-        Mockito.when(mockRepository.getChargingStationByGeolocation(validLatitude, validLongitude)).
-                thenReturn(Optional.of(expectedChargingStation));
+        Mockito.when(mockRepository.getChargingStationByGeolocation(validLatitude, validLongitude))
+                        .thenReturn(Optional.of(expectedChargingStation));
 
         // Act
-        ChargingStation actualChargingStation = chargingStationService.
-                getChargingStationByGeolocation(validLatitude, validLongitude);
+        ChargingStation actualChargingStation = chargingStationService
+                .getChargingStationByGeolocation(validLatitude, validLongitude);
 
         // Assert
         assertEquals(expectedChargingStation, actualChargingStation);
@@ -121,12 +121,12 @@ public class ChargingServiceImplTest {
         // Arrange
         double invalidLatitude = 1000.0;
         double invalidLongitude = 2000.0;
-        Mockito.when(mockRepository.getChargingStationByGeolocation(invalidLatitude, invalidLongitude)).
-                thenReturn(Optional.empty());
+        Mockito.when(mockRepository.getChargingStationByGeolocation(invalidLatitude, invalidLongitude))
+                .thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(EntityNotFoundException.class, () -> chargingStationService.
-                getChargingStationByGeolocation(invalidLatitude, invalidLongitude));
+        assertThrows(EntityNotFoundException.class, () -> chargingStationService
+                .getChargingStationByGeolocation(invalidLatitude, invalidLongitude));
     }
 
     @Test
@@ -164,8 +164,8 @@ public class ChargingServiceImplTest {
     public void updateChargingStation_WhenNoConflict_ShouldUpdateChargingStation() {
         // Arrange
         ChargingStation chargingStationToUpdate = createMockChargingStation();
-        Mockito.when(mockRepository.getChargingStationById(chargingStationToUpdate.getId())).
-                thenReturn(Optional.of(chargingStationToUpdate));
+        Mockito.when(mockRepository.getChargingStationById(chargingStationToUpdate.getId()))
+                .thenReturn(Optional.of(chargingStationToUpdate));
         Mockito.when(mockRepository.getChargingStationByGeolocation(chargingStationToUpdate.getLatitude(),
                 chargingStationToUpdate.getLongitude())).thenReturn(Optional.empty());
 
@@ -187,14 +187,14 @@ public class ChargingServiceImplTest {
         chargingStationToUpdate.setLongitude(existingChargingStation.getLongitude());
         chargingStationToUpdate.setZipcode(existingChargingStation.getZipcode());
 
-        Mockito.when(mockRepository.getChargingStationById(chargingStationToUpdate.getId())).
-                thenReturn(Optional.of(chargingStationToUpdate));
-        Mockito.when(mockRepository.getChargingStationByGeolocation(chargingStationToUpdate.
-                getLatitude(), chargingStationToUpdate.getLongitude())).thenReturn(Optional.of(existingChargingStation));
+        Mockito.when(mockRepository.getChargingStationById(chargingStationToUpdate.getId()))
+                        .thenReturn(Optional.of(chargingStationToUpdate));
+        Mockito.when(mockRepository.getChargingStationByGeolocation(chargingStationToUpdate
+                .getLatitude(), chargingStationToUpdate.getLongitude())).thenReturn(Optional.of(existingChargingStation));
 
         // Act & Assert
-        assertThrows(DuplicateEntityException.class, () -> chargingStationService.
-                updateChargingStation(chargingStationToUpdate));
+        assertThrows(DuplicateEntityException.class, () -> chargingStationService
+                .updateChargingStation(chargingStationToUpdate));
     }
 
     @Test
